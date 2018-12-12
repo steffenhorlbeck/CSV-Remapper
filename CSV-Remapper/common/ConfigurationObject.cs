@@ -8,6 +8,7 @@ namespace CSV_Remapper.common
 {
     using System.IO;
     using System.Windows.Forms;
+    using System.Windows.Forms.VisualStyles;
     using System.Xml.Serialization;
 
     public class ConfigurationObject
@@ -15,18 +16,25 @@ namespace CSV_Remapper.common
         private static string CompanyDir = "megraso";
         private static string AppName = "CsvMapper";
         private static string ConfigFileName = "CsvMapper.cfg";
+        public static List<string> DelimiterList { get; set; } = new List<string>() { ",", ";", "|" };
 
-        private static string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), CompanyDir, AppName, ConfigFileName);
+        public static readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), CompanyDir, AppName, ConfigFileName);
 
         public ConfigurationObject(string configFile = null)
         {
             
             this.SetDefaultSettings();
 
-            if (!string.IsNullOrWhiteSpace(configFile))
+            if (!string.IsNullOrWhiteSpace(configFile) && File.Exists(configFile))
             {
                 this.LoadConfiguration(!string.IsNullOrWhiteSpace(configFile) ? configFile : DefaultConfigFile);
             }
+        }
+
+
+        public ConfigurationObject()
+        {
+            this.SetDefaultSettings();
         }
 
         /// <summary>
@@ -38,7 +46,7 @@ namespace CSV_Remapper.common
             this.TargetCSV = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), CompanyDir, AppName);
             this.DefaultCsvFileExtension = "csv";
             this.DefaultCsvEncoding = "UTF-8";
-
+            this.remappingObj = new List<RemappingObj>();
         }
 
 
@@ -64,6 +72,8 @@ namespace CSV_Remapper.common
                     this.TargetCSV = conf.TargetCSV;
                     this.DefaultCsvFileExtension = conf.DefaultCsvFileExtension;
                     this.DefaultCsvEncoding = conf.DefaultCsvEncoding;
+
+                    this.remappingObj = conf.remappingObj;
                 }
                 else
                 {
@@ -77,31 +87,27 @@ namespace CSV_Remapper.common
         }
 
 
-        public void SaveConfigurationToFile(string fileName = "")
+        public void SaveConfigurationToFile(String fileName = "")
         {
             try
             {
-                if (fileName.IsNullOrWhiteSpace())
+                if (!string.IsNullOrWhiteSpace(fileName))
                 {
-                    fileName = this.CurrentConfigurationFile;
+                    Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+                    // encrypt password before storing the config to file
+                    XmlSerializer mySerializer = new XmlSerializer(typeof(ConfigurationObject));
+                    StreamWriter myWriter = new StreamWriter(fileName);
+                    mySerializer.Serialize(myWriter, this);
+                    myWriter.Flush();
+                    myWriter.Close();
                 }
-
-                // encrypt password before storing the config to file
-                this.SftpPassword = StringCipher.Encrypt(this.SftpPassword, this.core.GetCipherPw());
-                this.ZipPassword = StringCipher.Encrypt(this.ZipPassword, this.core.GetCipherPw());
-                this.SqlPassword = StringCipher.Encrypt(this.SqlPassword, this.core.GetCipherPw());
-                this.SftprsaKeyPassphrase = StringCipher.Encrypt(this.SftprsaKeyPassphrase, this.core.GetCipherPw());
-                XmlSerializer mySerializer = new XmlSerializer(typeof(ConfigurationObj));
-                StreamWriter myWriter = new StreamWriter(fileName);
-                mySerializer.Serialize(myWriter, this);
-                myWriter.Flush();
-                myWriter.Close();
             }
             catch (Exception ex)
             {
-                this.core.Log.Error($"Error on saving configuration file: {ex.Message}");
+                MessageBox.Show($"Error on saving configuration file: {ex.Message}", "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         public string SourceCSV { get; set; }
@@ -111,5 +117,17 @@ namespace CSV_Remapper.common
         public string DefaultCsvFileExtension { get; set; }
 
         public string DefaultCsvEncoding { get; set; }
+
+        public List<RemappingObj> remappingObj { get; set; }
+    }
+
+    public class RemappingObj
+    {
+        
+        public string SourceField { get; set; }
+
+        public string TargetField { get; set; }
+
+        public string MappingString { get; set; }
     }
 }

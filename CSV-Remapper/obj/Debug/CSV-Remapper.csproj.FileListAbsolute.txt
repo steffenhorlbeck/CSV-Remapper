@@ -11,3 +11,7 @@ C:\Projects\CSV-Remapper\CSV-Remapper\obj\Debug\CSV-Remapper.csproj.CoreCompileI
 C:\Projects\CSV-Remapper\CSV-Remapper\obj\Debug\CSV-Remapper.csproj.CopyComplete
 C:\Projects\CSV-Remapper\CSV-Remapper\obj\Debug\CSV-Remapper.exe
 C:\Projects\CSV-Remapper\CSV-Remapper\obj\Debug\CSV-Remapper.pdb
+C:\Projects\CSV-Remapper\CSV-Remapper\bin\Debug\CsvHelper.dll
+C:\Projects\CSV-Remapper\CSV-Remapper\bin\Debug\System.ValueTuple.dll
+C:\Projects\CSV-Remapper\CSV-Remapper\bin\Debug\CsvHelper.xml
+C:\Projects\CSV-Remapper\CSV-Remapper\bin\Debug\System.ValueTuple.xml

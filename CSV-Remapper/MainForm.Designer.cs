@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lstSourceCSV = new System.Windows.Forms.ListBox();
             this.lblSourceCSV = new System.Windows.Forms.Label();
             this.lstTargetCSV = new System.Windows.Forms.ListBox();
@@ -40,6 +41,10 @@
             this.edtTargetCSV = new System.Windows.Forms.TextBox();
             this.btnMap = new System.Windows.Forms.Button();
             this.fileSelectDlg = new System.Windows.Forms.OpenFileDialog();
+            this.toolTipSource = new System.Windows.Forms.ToolTip(this.components);
+            this.mappingContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mappingContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstSourceCSV
@@ -51,6 +56,7 @@
             this.lstSourceCSV.Name = "lstSourceCSV";
             this.lstSourceCSV.Size = new System.Drawing.Size(251, 459);
             this.lstSourceCSV.TabIndex = 0;
+            this.lstSourceCSV.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lstSourceCSV_MouseMove);
             // 
             // lblSourceCSV
             // 
@@ -76,6 +82,7 @@
             this.lstMaps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstMaps.ContextMenuStrip = this.mappingContextMenu;
             this.lstMaps.FormattingEnabled = true;
             this.lstMaps.Location = new System.Drawing.Point(616, 75);
             this.lstMaps.Name = "lstMaps";
@@ -128,6 +135,7 @@
             this.btnSelectTargetCSV.TabIndex = 9;
             this.btnSelectTargetCSV.Text = "...";
             this.btnSelectTargetCSV.UseVisualStyleBackColor = true;
+            this.btnSelectTargetCSV.Click += new System.EventHandler(this.btnSelectTargetCSV_Click);
             // 
             // edtTargetCSV
             // 
@@ -145,6 +153,25 @@
             this.btnMap.TabIndex = 10;
             this.btnMap.Text = "<- Map ->";
             this.btnMap.UseVisualStyleBackColor = true;
+            this.btnMap.Click += new System.EventHandler(this.btnMap_Click);
+            // 
+            // toolTipSource
+            // 
+            this.toolTipSource.ToolTipTitle = "Field Value";
+            // 
+            // mappingContextMenu
+            // 
+            this.mappingContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.mappingContextMenu.Name = "mappingContextMenu";
+            this.mappingContextMenu.Size = new System.Drawing.Size(108, 26);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -164,6 +191,8 @@
             this.Controls.Add(this.lstSourceCSV);
             this.Name = "MainForm";
             this.Text = "CSV Remapper";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.mappingContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,6 +212,9 @@
         private System.Windows.Forms.TextBox edtTargetCSV;
         private System.Windows.Forms.Button btnMap;
         private System.Windows.Forms.OpenFileDialog fileSelectDlg;
+        private System.Windows.Forms.ToolTip toolTipSource;
+        private System.Windows.Forms.ContextMenuStrip mappingContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }
 
