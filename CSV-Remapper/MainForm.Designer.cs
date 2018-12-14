@@ -33,6 +33,8 @@
             this.lblSourceCSV = new System.Windows.Forms.Label();
             this.lstTargetCSV = new System.Windows.Forms.ListBox();
             this.lstMaps = new System.Windows.Forms.ListBox();
+            this.mappingContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTargetCSV = new System.Windows.Forms.Label();
             this.lblMapping = new System.Windows.Forms.Label();
             this.edtSourceCSV = new System.Windows.Forms.TextBox();
@@ -42,8 +44,9 @@
             this.btnMap = new System.Windows.Forms.Button();
             this.fileSelectDlg = new System.Windows.Forms.OpenFileDialog();
             this.toolTipSource = new System.Windows.Forms.ToolTip(this.components);
-            this.mappingContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSaveConfig = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.dlgFileSave = new System.Windows.Forms.SaveFileDialog();
             this.mappingContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,6 +91,20 @@
             this.lstMaps.Name = "lstMaps";
             this.lstMaps.Size = new System.Drawing.Size(251, 459);
             this.lstMaps.TabIndex = 3;
+            // 
+            // mappingContextMenu
+            // 
+            this.mappingContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.mappingContextMenu.Name = "mappingContextMenu";
+            this.mappingContextMenu.Size = new System.Drawing.Size(108, 26);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // lblTargetCSV
             // 
@@ -159,25 +176,34 @@
             // 
             this.toolTipSource.ToolTipTitle = "Field Value";
             // 
-            // mappingContextMenu
+            // btnSaveConfig
             // 
-            this.mappingContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteToolStripMenuItem});
-            this.mappingContextMenu.Name = "mappingContextMenu";
-            this.mappingContextMenu.Size = new System.Drawing.Size(108, 26);
+            this.btnSaveConfig.Location = new System.Drawing.Point(616, 539);
+            this.btnSaveConfig.Name = "btnSaveConfig";
+            this.btnSaveConfig.Size = new System.Drawing.Size(123, 23);
+            this.btnSaveConfig.TabIndex = 11;
+            this.btnSaveConfig.Text = "Save Configuration";
+            this.btnSaveConfig.UseVisualStyleBackColor = true;
+            this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
             // 
-            // deleteToolStripMenuItem
+            // btnStart
             // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStart.Location = new System.Drawing.Point(760, 539);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(106, 23);
+            this.btnStart.TabIndex = 12;
+            this.btnStart.Text = "Start Remapping";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(879, 589);
+            this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.btnSaveConfig);
             this.Controls.Add(this.btnMap);
             this.Controls.Add(this.btnSelectTargetCSV);
             this.Controls.Add(this.edtTargetCSV);
@@ -215,6 +241,9 @@
         private System.Windows.Forms.ToolTip toolTipSource;
         private System.Windows.Forms.ContextMenuStrip mappingContextMenu;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.Button btnSaveConfig;
+        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.SaveFileDialog dlgFileSave;
     }
 }
 

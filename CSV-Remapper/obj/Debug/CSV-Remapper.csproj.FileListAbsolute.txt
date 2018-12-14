@@ -1,8 +1,6 @@
 C:\Projects\CSV-Remapper\CSV-Remapper\bin\Debug\CSV-Remapper.exe.config
 C:\Projects\CSV-Remapper\CSV-Remapper\bin\Debug\CSV-Remapper.exe
 C:\Projects\CSV-Remapper\CSV-Remapper\bin\Debug\CSV-Remapper.pdb
-C:\Projects\CSV-Remapper\CSV-Remapper\bin\Debug\FileHelpers.dll
-C:\Projects\CSV-Remapper\CSV-Remapper\bin\Debug\FileHelpers.xml
 C:\Projects\CSV-Remapper\CSV-Remapper\obj\Debug\CSV-Remapper.csprojAssemblyReference.cache
 C:\Projects\CSV-Remapper\CSV-Remapper\obj\Debug\CSV_Remapper.MainForm.resources
 C:\Projects\CSV-Remapper\CSV-Remapper\obj\Debug\CSV_Remapper.Properties.Resources.resources

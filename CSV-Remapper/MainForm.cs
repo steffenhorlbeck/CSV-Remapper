@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CsvHelper;
 
 namespace CSV_Remapper
 {
@@ -14,7 +15,6 @@ namespace CSV_Remapper
     using System.Reflection;
     using System.Runtime.CompilerServices;
 
-    using CsvHelper;
 
     using CSV_Remapper.common;
     using CSV_Remapper.helper;
@@ -34,6 +34,9 @@ namespace CSV_Remapper
         private int hoveredIndexSourceCsv = -1;
         private int hoveredIndexTargetCsv = -1;
         private int hoveredIndexMapingList = -1;
+
+        private List<List<string>> sourceList;
+        private List<List<string>> targetList;
 
         public MainForm()
         {
@@ -122,20 +125,20 @@ namespace CSV_Remapper
 
         private void LoadSourceFile()
         {
-            List<List<string>> list;
-            list = ReadCsv(this.edtSourceCSV.Text, ref this.importObj);
+            
+            sourceList = ReadCsv(this.edtSourceCSV.Text, ref this.importObj);
 
             this.lstSourceCSV.Items.Clear();
-            this.ListFields(list);
+            this.ListFields(sourceList);
         }
 
         private void LoadTargetFile()
         {
-            List<List<string>> list;
-            list = ReadCsv(this.edtTargetCSV.Text, ref this.exportObj);
+            
+            targetList = ReadCsv(this.edtTargetCSV.Text, ref this.exportObj);
 
             this.lstTargetCSV.Items.Clear();
-            this.ListFields(list, true);
+            this.ListFields(targetList, true);
         }
 
         private void ListFields(List<List<string>> list, bool target = false)
@@ -246,8 +249,13 @@ namespace CSV_Remapper
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SaveConfiguration();
+        }
+
+        private void SaveConfiguration()
+        {
             this.Conf.SourceCSV = this.edtSourceCSV.Text;
-            this.Conf.TargetCSV = this.edtTargetCSV.Text;            
+            this.Conf.TargetCSV = this.edtTargetCSV.Text;
 
             this.Conf.SaveConfigurationToFile(this.CurrentConfigurationFile);
         }
@@ -337,6 +345,19 @@ namespace CSV_Remapper
                 }
             }
             
+        }
+
+        private void btnSaveConfig_Click(object sender, EventArgs e)
+        {
+            SaveConfiguration();
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            foreach (RemappingObj obj in this.Conf.remappingObj)
+            {
+
+            }
         }
     }
 }
