@@ -14,7 +14,7 @@ namespace CSV_Remapper
     using System.IO;
     using System.Reflection;
     using System.Runtime.CompilerServices;
-
+    using System.Xml;
 
     using CSV_Remapper.common;
     using CSV_Remapper.helper;
@@ -37,6 +37,8 @@ namespace CSV_Remapper
 
         private List<List<string>> sourceList;
         private List<List<string>> targetList;
+
+        private List<List<string>> resultingList;
 
         public MainForm()
         {
@@ -296,7 +298,9 @@ namespace CSV_Remapper
                 {
                     obj = new RemappingObj();
                     obj.SourceField = this.lstSourceCSV.SelectedItem.ToString();
+                    obj.SourcefieldIdx = this.lstSourceCSV.SelectedIndex;
                     obj.TargetField = this.lstTargetCSV.SelectedItem.ToString();
+                    obj.TargetFieldIdx = this.lstTargetCSV.SelectedIndex;
                     obj.MappingString = obj.SourceField + " -> " + obj.TargetField;
                     this.Conf.remappingObj.Add(obj);
                     this.RefreshMappingList();
@@ -343,8 +347,7 @@ namespace CSV_Remapper
                     this.Conf.remappingObj.Remove(obj);
                     this.RefreshMappingList();
                 }
-            }
-            
+            }            
         }
 
         private void btnSaveConfig_Click(object sender, EventArgs e)
@@ -354,9 +357,75 @@ namespace CSV_Remapper
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            resultingList = new List<List<string>>();
+
+            // write header
+            List<string> header = new List<string>();
             foreach (RemappingObj obj in this.Conf.remappingObj)
             {
+                header.Add(obj.TargetField);
+            }
 
+            this.resultingList.Add(header);
+
+            //now we read the data lines and put only data of mapped fields
+            int recCnt = 0;
+            foreach (List<string> line in this.sourceList)
+            {
+                recCnt++;
+                if (recCnt > 1)
+                {
+                    List<string> dataLine = new List<string>();
+                    foreach (RemappingObj obj in this.Conf.remappingObj)
+                    {
+                        dataLine.Add(line[obj.SourcefieldIdx]);
+                    }
+                    this.resultingList.Add(dataLine);
+                }
+            }
+
+
+            string appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), ConfigurationObject.CompanyDir, ConfigurationObject.AppName);
+
+            this.dlgFileSave.DefaultExt = ".csv";
+            this.dlgFileSave.FileName = "output.csv";
+            this.dlgFileSave.InitialDirectory = appDataDir;
+
+            if (this.dlgFileSave.ShowDialog() == DialogResult.OK)
+            {
+                SaveRemappedCSVFile(this.dlgFileSave.FileName);
+            }
+        }
+
+        private void SaveRemappedCSVFile(string fileName)
+        {
+            using (TextWriter writer = new StreamWriter(fileName, false, System.Text.Encoding.UTF8))
+            {
+                var csv = new CsvWriter(writer);
+
+                int recCnt = 0;
+                foreach (List<string> record in this.resultingList)
+                {
+                    recCnt++;
+                    foreach (var field in record)
+                    {
+                        long res;
+                        string value = field;
+
+                        if (recCnt > 1)
+                        {
+                            csv.WriteField(value, !long.TryParse(field, out res));
+                        }
+                        else
+                        {
+                            csv.WriteField(value, false);
+                        }
+                    }
+                    csv.NextRecord();
+                }
+                
+
+                writer.Flush();
             }
         }
     }

@@ -13,8 +13,8 @@ namespace CSV_Remapper.common
 
     public class ConfigurationObject
     {
-        private static string CompanyDir = "megraso";
-        private static string AppName = "CsvMapper";
+        public static string CompanyDir = "megraso";
+        public static string AppName = "CsvMapper";
         private static string ConfigFileName = "CsvMapper.cfg";
         public static List<string> DelimiterList { get; set; } = new List<string>() { ",", ";", "|" };
 
@@ -121,12 +121,16 @@ namespace CSV_Remapper.common
         public List<RemappingObj> remappingObj { get; set; }
     }
 
+
     public class RemappingObj
-    {
-        
+    {        
         public string SourceField { get; set; }
 
+        public int SourcefieldIdx { get; set; }
+
         public string TargetField { get; set; }
+
+        public int TargetFieldIdx { get; set; }
 
         public string MappingString { get; set; }
     }

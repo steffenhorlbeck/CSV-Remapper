@@ -36,6 +36,4 @@ namespace CSV_Remapper.common
 
         public string FirstFieldValue { get; set; }
     }
-
-    public 
 }
